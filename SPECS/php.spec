@@ -69,7 +69,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
 Version: 5.4.45
-Release: 1%{?dist}
+Release: 1.1%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -169,6 +169,8 @@ Patch224: CVE-2023-0568.patch
 Patch300: CVE-2019-19203.patch
 Patch301: CVE-2019-19204.patch
 Patch302: CVE-2020-26159.patch
+# CVE-2024-8927 — upstream backport
+Patch303: php-5.4.45-CVE-2024-8927.patch
 
 
 
@@ -722,6 +724,7 @@ support for using the enchant library to PHP.
 %patch300 -p1
 %patch301 -p1
 %patch302 -p1
+%patch303 -p1 -b .CVE-2024-8927
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1492,6 +1495,9 @@ fi
 
 
 %changelog
+* Wed Aug 19 2026 Jason Rodriguez <jrodriguez@ciq.com> - 5.4.45-1.1
+- Fix CVE-2024-8927
+
 * Mon Nov 18 2024 Trinity Quirk <tquirk@ciq.com> - 5.4.45-1
 - Added patches for:
   CVE-2016-4070 CVE-2016-4342 CVE-2016-4343 CVE-2016-6290 CVE-2016-6295
