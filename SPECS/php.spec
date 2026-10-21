@@ -62,7 +62,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
 Version: %{upver}%{?rcver:~%{rcver}}
-Release: 3.1%{?dist}
+Release: 3.4%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -150,7 +150,14 @@ Patch217: php-cve-2025-1219.patch
 Patch300: php-7.4.0-datetests.patch
 # CVE-2026-6722 — upstream backport
 Patch301: php-8.0.30-CVE-2026-6722.patch
+# CVE-2026-7262 — upstream backport
+Patch302: php-8.0.30-CVE-2026-7262.patch
+# CVE-2026-7568 — upstream backport
+Patch303: php-8.0.30-CVE-2026-7568.patch
 
+
+# CVE-2026-109618 and CVE-2026-109619
+Patch1001: php-8.0-CVE-2026-109618-and-CVE-2026-109619-Avoid-state-corruption-via-bailout.patch
 
 BuildRequires: gnupg2
 BuildRequires: bzip2-devel
@@ -770,6 +777,10 @@ rm ext/openssl/tests/p12_with_extra_certs.p12
 # Fixes for tests
 %patch -P300 -p1 -b .datetests
 %patch301 -p1 -b .CVE-2026-6722
+%patch302 -p1 -b .CVE-2026-7262
+%patch303 -p1 -b .CVE-2026-7568
+
+%patch1001 -p1 -b .CVE-2026-109618-and-CVE-2026-109619
 
 
 # Prevent %%doc confusion over LICENSE files
@@ -1575,6 +1586,19 @@ systemctl try-restart php-fpm.service >/dev/null 2>&1 || :
 
 
 %changelog
+* Wed Oct 21 2026 Pratham Patel <ppatel@ciq.com> - 8.0.30-3.4
+- Fix CVE-2026-109618
+- Fix CVE-2026-109619
+- Upstream fixes for both CVEs: https://github.com/php/php-src/commit/82f8f31b16a035c1b67cc253e79f7cc288f4cc20.patch
+
+* Mon Sep 21 2026 Jason Rodriguez <jrodriguez@ciq.com> - 8.0.30-3.3
+- Fix CVE-2026-7568
+- Rebased by Pratham Patel <ppatel@ciq.com>
+
+* Mon Sep 21 2026 Jason Rodriguez <jrodriguez@ciq.com> - 8.0.30-3.2
+- Fix CVE-2026-7262
+- Rebased by Pratham Patel <ppatel@ciq.com>
+
 * Fri Sep 11 2026 Jason Rodriguez <jrodriguez@ciq.com> - 8.0.30-3.1
 - Fix CVE-2026-6722
 
