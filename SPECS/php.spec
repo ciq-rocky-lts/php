@@ -62,7 +62,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
 Version: %{upver}%{?rcver:~%{rcver}}
-Release: 1.1%{?dist}
+Release: 1.2%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -159,6 +159,9 @@ Patch313: php-8.0.30-CVE-2025-6491.patch
 Patch314: php-8.0.30-CVE-2026-6735.patch
 # CVE-2026-7261 — upstream backport
 Patch315: php-8.0.30-CVE-2026-7261.patch
+
+# CVE-2026-109618 and CVE-2026-109619
+Patch1001: php-8.0-CVE-2026-109618-and-CVE-2026-109619-Avoid-state-corruption-via-bailout.patch
 
 
 BuildRequires: gnupg2
@@ -775,6 +778,8 @@ rm ext/openssl/tests/p12_with_extra_certs.p12
 %patch313 -p1 -b .CVE-2025-6491
 %patch314 -p1 -b .CVE-2026-6735
 %patch315 -p1 -b .CVE-2026-7261
+
+%patch1001 -p1 -b .CVE-2026-109618-and-CVE-2026-109619
 
 
 # Prevent %%doc confusion over LICENSE files
@@ -1580,6 +1585,11 @@ systemctl try-restart php-fpm.service >/dev/null 2>&1 || :
 
 
 %changelog
+* Wed Oct 21 2026 Pratham Patel <ppatel@ciq.com> - 8.0.30-1.2
+- Fix CVE-2026-109618
+- Fix CVE-2026-109619
+- Upstream fixes for both CVEs: https://github.com/php/php-src/commit/82f8f31b16a035c1b67cc253e79f7cc288f4cc20.patch
+
 * Thu Sep 03 2026 Jason Rodriguez <jrodriguez@ciq.com> - 8.0.30-1.1
 - Fix CVE-2026-6722
 - Fix CVE-2026-7262
