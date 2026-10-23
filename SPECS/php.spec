@@ -69,7 +69,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
 Version: 5.4.45
-Release: 1.1%{?dist}
+Release: 1.2%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -171,6 +171,8 @@ Patch301: CVE-2019-19204.patch
 Patch302: CVE-2020-26159.patch
 # CVE-2024-8927 — upstream backport
 Patch303: php-5.4.45-CVE-2024-8927.patch
+# CVE-2026-109618, CVE-2026-109619 (php2shell) — backport of php-src 712e60f9ed
+Patch304: php-5.4.45-CVE-2026-109618-109619.patch
 
 
 
@@ -725,6 +727,7 @@ support for using the enchant library to PHP.
 %patch301 -p1
 %patch302 -p1
 %patch303 -p1 -b .CVE-2024-8927
+%patch304 -p1 -b .CVE-2026-109618
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1495,6 +1498,14 @@ fi
 
 
 %changelog
+* Thu Oct 22 2026 Jeff Uphoff <juphoff@ciq.com> - 5.4.45-1.2
+- Fix CVE-2026-109618 and CVE-2026-109619 (php2shell): memory corruption
+  and use-after-free via fatal-error bailout and stale request state
+- Fatal memory limit / out-of-memory errors now terminate the process
+- Session upload progress is disabled unconditionally
+- Add max_multipart_body_parts INI setting (default max_input_vars +
+  max_file_uploads)
+
 * Wed Aug 19 2026 Jason Rodriguez <jrodriguez@ciq.com> - 5.4.45-1.1
 - Fix CVE-2024-8927
 
